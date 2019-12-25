@@ -2,6 +2,7 @@ package ru.itis;
 
 import org.reflections.Reflections;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -52,9 +53,9 @@ public class ApplicationContextReflectionBased implements ApplicationContext {
        if (isClass(componentType)) {
            try {
                model = componentType.newInstance();
-               Method method = componentType.getMethod("getComponentName");
-               String componentName = (String)method.invoke(model);
-               if (componentName.equals(name)) {
+//               Method method = componentType.getMethod("getComponentName");
+//               String componentName = (String)method.invoke(model);
+               if (getComponentName(componentType).equals(name)) {
                    scan(model);
                    System.out.println("SUCCESS");
                    return model;
@@ -67,24 +68,52 @@ public class ApplicationContextReflectionBased implements ApplicationContext {
            Set<Class<? extends T>> implementations =  reflections.getSubTypesOf(componentType);
            for (Class<? extends T> tClass : implementations) {
                try {
-                   Method method = tClass.getMethod("getComponentName");
-                   T obj = tClass.newInstance();
-                   String componentName = (String) method.invoke(obj);
-                   if (componentName.equals(name)) {
+                   if (getComponentName(tClass).equals(name) || getMapping(tClass).equals(name)) {
+                       T obj = tClass.newInstance();
                        scan(obj);
                        System.out.println("SUCCESS");
                        return obj;
                    }
-               } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+               } catch (Exception e) {
                    throw new IllegalStateException(e);
                }
            }
        }
-       throw new IllegalStateException("no such component");
+       return null;
+//       throw new IllegalStateException("no such component");
     }
 
     private boolean isClass(Class tClass) {
         String[] parts = tClass.toString().split(" ");
         return parts[0].equals("class");
+    }
+
+    private <T> String getComponentName(Class<? extends T> tClass ) {
+        try {
+            Method method = tClass.getMethod("getComponentName");
+            T obj = tClass.newInstance();
+            return (String) method.invoke(obj);
+        } catch (Exception e) {
+            return "NO SUCH METHOD";
+        }
+    }
+
+    private <T> String getMapping(Class<? extends T> tClass) {
+        String mapping = null;
+        Annotation[] annotations = tClass.getDeclaredAnnotations();
+        for (Annotation annotation:
+             annotations) {
+            String[] nameWithPackage = annotation.annotationType().getName().split("\\.");
+            if (nameWithPackage[nameWithPackage.length - 1].equals("Mapping")) {
+                Class<? extends  Annotation> annotationType = annotation.annotationType();
+                try {
+                    mapping = (String) annotationType.getDeclaredMethod("value").invoke(annotation, (Object[])null);
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    throw new IllegalStateException(e);
+                }
+            }
+        }
+//        annotations[0].annotationType().getTypeName()
+        return mapping;
     }
 }
