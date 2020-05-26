@@ -16,18 +16,18 @@ public class ApplicationContextReflectionBased implements ApplicationContext {
     public void scan(Object demo) {
         Class tClass = demo.getClass();
         Field[] fields = tClass.getDeclaredFields();
-        for (Field field:
+        for (Field field :
                 fields) {
             Class fieldClass = field.getType();
             Class<?> fieldImpl = null;
             if (!isClass(fieldClass)) {
                 Set<Class> classes = reflections.getSubTypesOf(fieldClass);
-                for (Class implClass:
-                     classes) {
+                for (Class implClass :
+                        classes) {
                     fieldImpl = implClass;
                 }
-            } else  {
-                  fieldImpl = fieldClass;
+            } else {
+                fieldImpl = fieldClass;
             }
             try {
                 fieldImpl.getMethod("getComponentName");
@@ -48,38 +48,38 @@ public class ApplicationContextReflectionBased implements ApplicationContext {
         }
     }
 
-   public  <T> T getComponent(Class<T> componentType, String name) {
-       T model;
-       if (isClass(componentType)) {
-           try {
-               model = componentType.newInstance();
+    public <T> T getComponent(Class<T> componentType, String name) {
+        T model;
+        if (isClass(componentType)) {
+            try {
+                model = componentType.newInstance();
 //               Method method = componentType.getMethod("getComponentName");
 //               String componentName = (String)method.invoke(model);
-               if (getComponentName(componentType).equals(name)) {
-                   scan(model);
-                   System.out.println("SUCCESS");
-                   return model;
-               }
+                if (getComponentName(componentType).equals(name)) {
+                    scan(model);
+                    System.out.println("SUCCESS");
+                    return model;
+                }
 
-           } catch (Exception e) {
-               throw new IllegalStateException(e);
-           }
-       } else {
-           Set<Class<? extends T>> implementations =  reflections.getSubTypesOf(componentType);
-           for (Class<? extends T> tClass : implementations) {
-               try {
-                   if (getComponentName(tClass).equals(name) || getMapping(tClass).equals(name)) {
-                       T obj = tClass.newInstance();
-                       scan(obj);
-                       System.out.println("SUCCESS");
-                       return obj;
-                   }
-               } catch (Exception e) {
-                   throw new IllegalStateException(e);
-               }
-           }
-       }
-       return null;
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
+        } else {
+            Set<Class<? extends T>> implementations = reflections.getSubTypesOf(componentType);
+            for (Class<? extends T> tClass : implementations) {
+                try {
+                    if (getComponentName(tClass).equals(name) || getMapping(tClass).equals(name)) {
+                        T obj = tClass.newInstance();
+                        scan(obj);
+                        System.out.println("SUCCESS");
+                        return obj;
+                    }
+                } catch (Exception e) {
+                    throw new IllegalStateException(e);
+                }
+            }
+        }
+        return null;
 //       throw new IllegalStateException("no such component");
     }
 
@@ -88,7 +88,7 @@ public class ApplicationContextReflectionBased implements ApplicationContext {
         return parts[0].equals("class");
     }
 
-    private <T> String getComponentName(Class<? extends T> tClass ) {
+    private <T> String getComponentName(Class<? extends T> tClass) {
         try {
             Method method = tClass.getMethod("getComponentName");
             T obj = tClass.newInstance();
@@ -101,13 +101,13 @@ public class ApplicationContextReflectionBased implements ApplicationContext {
     private <T> String getMapping(Class<? extends T> tClass) {
         String mapping = null;
         Annotation[] annotations = tClass.getDeclaredAnnotations();
-        for (Annotation annotation:
-             annotations) {
+        for (Annotation annotation :
+                annotations) {
             String[] nameWithPackage = annotation.annotationType().getName().split("\\.");
             if (nameWithPackage[nameWithPackage.length - 1].equals("Mapping")) {
-                Class<? extends  Annotation> annotationType = annotation.annotationType();
+                Class<? extends Annotation> annotationType = annotation.annotationType();
                 try {
-                    mapping = (String) annotationType.getDeclaredMethod("value").invoke(annotation, (Object[])null);
+                    mapping = (String) annotationType.getDeclaredMethod("value").invoke(annotation, (Object[]) null);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     throw new IllegalStateException(e);
                 }

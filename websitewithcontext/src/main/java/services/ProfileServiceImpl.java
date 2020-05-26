@@ -9,6 +9,7 @@ import java.util.Optional;
 public class ProfileServiceImpl implements ProfileService, Component {
 
     private UserRepository userRepository;
+
     @Override
     public String getComponentName() {
         return "profileServiceImpl";

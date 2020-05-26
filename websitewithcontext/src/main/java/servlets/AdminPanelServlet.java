@@ -20,7 +20,7 @@ public class AdminPanelServlet extends HttpServlet {
     private ProductService service;
 
     @Override
-    public void init(ServletConfig config){
+    public void init(ServletConfig config) {
         ServletContext servletContext = config.getServletContext();
         Object rawAttribute = servletContext.getAttribute("applicationContext");
         ApplicationContext applicationContext = (ApplicationContextReflectionBased) rawAttribute;

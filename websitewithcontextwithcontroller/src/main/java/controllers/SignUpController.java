@@ -20,10 +20,10 @@ public class SignUpController implements Controller {
     public void handle(HttpServletRequest request, HttpServletResponse response, ServletContext context) {
         String method = request.getMethod();
         if (method.equals("GET")) {
-                doGet(request, response);
+            doGet(request, response);
         } else {
             if (method.equals("POST")) {
-                    doPost(request, response);
+                doPost(request, response);
             }
         }
     }

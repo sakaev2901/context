@@ -16,7 +16,7 @@ public class RoleAdminFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpSession session = request.getSession();
-        Role role = (Role)session.getAttribute("role");
+        Role role = (Role) session.getAttribute("role");
         if (role == Role.USER) {
             throw new IllegalStateException("You are not allowed for this page");
         } else {

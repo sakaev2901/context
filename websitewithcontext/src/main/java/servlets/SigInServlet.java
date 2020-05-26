@@ -22,7 +22,7 @@ public class SigInServlet extends HttpServlet {
     private SignInService service;
 
     @Override
-    public void init(ServletConfig config)  {
+    public void init(ServletConfig config) {
         ServletContext servletContext = config.getServletContext();
         Object rawAttribute = servletContext.getAttribute("applicationContext");
         ApplicationContext applicationContext = (ApplicationContextReflectionBased) rawAttribute;

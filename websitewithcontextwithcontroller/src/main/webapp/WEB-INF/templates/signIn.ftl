@@ -6,10 +6,10 @@
 </head>
 <body>
 <h1>
-   Вход
+    Вход
 </h1>
 <hr>
-<form method="post" >
+<form method="post">
     <p>
         <label>Логин <input type="text" name="login" placeholder="Login"></label>
     </p>

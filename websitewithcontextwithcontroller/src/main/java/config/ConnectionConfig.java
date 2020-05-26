@@ -49,9 +49,8 @@ public final class ConnectionConfig {
         if (statement != null) {
             try {
                 statement.close();
-            }
-            catch (Exception e) {
-                throw  new RuntimeException(e);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }

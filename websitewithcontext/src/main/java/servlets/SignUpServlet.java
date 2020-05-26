@@ -37,7 +37,7 @@ public class SignUpServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 //        SignInService service = new SignInServiceImpl();
 //        User user = service.signIn(req.getParameter("login"), req.getParameter("password"));
 //        HttpSession session = req.getSession();

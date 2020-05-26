@@ -52,13 +52,13 @@ public class ProductRepositoryImpl implements ProductRepository, Component {
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 productList.add(new Product().builder()
-                                    .id(set.getLong("id"))
-                                    .name(set.getString("name"))
-                                    .price(set.getInt("price")).build());
+                        .id(set.getLong("id"))
+                        .name(set.getString("name"))
+                        .price(set.getInt("price")).build());
             }
-        return productList;
+            return productList;
         } catch (SQLException e) {
-             throw new IllegalStateException(e);
+            throw new IllegalStateException(e);
         } finally {
             CONNECTION_CONFIG.close(statement);
             CONNECTION_CONFIG.close(connection);

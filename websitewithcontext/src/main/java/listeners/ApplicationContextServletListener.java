@@ -15,7 +15,7 @@ public class ApplicationContextServletListener implements ServletContextListener
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 //        ApplicationContext applicationContext = new ApplicationContextReflectionBased();
-        ApplicationContext applicationContext =  new ApplicationContextReflectionBased();
+        ApplicationContext applicationContext = new ApplicationContextReflectionBased();
         ServletContext context = sce.getServletContext();
 
         context.setAttribute("applicationContext", applicationContext);

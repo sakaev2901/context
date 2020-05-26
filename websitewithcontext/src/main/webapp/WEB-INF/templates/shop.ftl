@@ -12,10 +12,10 @@
     </style>
 </head>
 <body>
-    <#list products as product>
-        <div class="product-container">
-            ID: ${product.getId()} ${product.getName()} <span style="color: green">${product.getPrice()}$</span>
-        </div>
-    </#list>
+<#list products as product>
+    <div class="product-container">
+        ID: ${product.getId()} ${product.getName()} <span style="color: green">${product.getPrice()}$</span>
+    </div>
+</#list>
 </body>
 </html>

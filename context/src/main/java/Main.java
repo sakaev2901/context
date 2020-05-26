@@ -11,7 +11,7 @@ public class Main {
         System.out.println(anno.annotationType().getName().equals("h.MyAnno"));
         Class<? extends Annotation> annoClass = anno.annotationType();
         try {
-            System.out.println(annoClass.getDeclaredMethod("value").invoke(anno, (Object[])null));
+            System.out.println(annoClass.getDeclaredMethod("value").invoke(anno, (Object[]) null));
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new IllegalStateException(e);
         }

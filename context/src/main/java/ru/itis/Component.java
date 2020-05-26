@@ -1,5 +1,5 @@
 package ru.itis;
 
-public interface Component   {
+public interface Component {
     String getComponentName();
 }

@@ -24,7 +24,7 @@ public class MainServlet extends HttpServlet {
         super.init(config);
         ServletContext servletContext = config.getServletContext();
         Object objectAttribute = servletContext.getAttribute("applicationContext");
-        applicationContext = (ApplicationContext)objectAttribute;
+        applicationContext = (ApplicationContext) objectAttribute;
     }
 
     @Override

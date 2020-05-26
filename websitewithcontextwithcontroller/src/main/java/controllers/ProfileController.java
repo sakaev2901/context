@@ -18,6 +18,7 @@ import java.io.IOException;
 public class ProfileController implements Controller {
 
     private ProfileService service;
+
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, ServletContext context) {
         String method = request.getMethod();
